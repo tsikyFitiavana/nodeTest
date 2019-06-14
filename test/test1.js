@@ -1,6 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
- const app =require('../server') ;
+const app = require('../server');
 const should = chai.should();
 const expect = chai.expect;
 chai.use(chaiHttp);
@@ -11,7 +11,7 @@ describe('=== Test1==', () => {
     describe('HTTP POST /client', () => {
         it('create client should return the result of data', (done) => {
 
-            user={
+            user = {
                 'nom': 'bruno',
                 'prenom': 'marcelino'
             }
@@ -34,44 +34,53 @@ describe('=== Test1==', () => {
     describe('HTTP GET /client', () => {
         it('get client should return the result of data', (done) => {
 
-            
+
             chai.request(app)
                 .get('/profil')
                 .end((err, res) => {
                     should.not.exist(err);
-                    res.status.should.eql(200);
+                    res.status.should.eql(404);
                     done();
                 });
         });
 
         it('getOne client should return the result of data', (done) => {
 
-            const a=3
+            const a = {
+                id: 10
+            }
             chai.request(app)
-                .get(`/profil/${a}`)
+                .get('/profil/')
+                .send(a)
                 .end((err, res) => {
                     should.not.exist(err);
                     res.status.should.eql(200);
                     done();
                 });
         });
-        
+
         it('getOne id=vide', (done) => {
 
-            const a=""
+            const a = {
+                id: ""
+            }
             chai.request(app)
-                .get(`/profil/${a}`)
+                .get('/profil/')
+                .send(a)
                 .end((err, res) => {
                     should.not.exist(err);
-                    res.status.should.eql(200);
+                    res.status.should.eql(404);
                     done();
                 });
         });
         it('getOne id=text', (done) => {
 
-            const a="gf"
+            const a = {
+                id: "fg"
+            }
             chai.request(app)
-                .get(`/profil/${a}`)
+                .get('/profil/' )
+                .send(a)
                 .end((err, res) => {
                     should.not.exist(err);
                     res.status.should.eql(500);
@@ -80,9 +89,12 @@ describe('=== Test1==', () => {
         });
         it('getOne id=int not exist', (done) => {
 
-            const a=1000
+            const a = {
+                id: 100
+            }
             chai.request(app)
-                .get(`/profil/${a}`)
+                .get('/profil/')
+                .send(a)
                 .end((err, res) => {
                     should.not.exist(err);
                     res.status.should.eql(404);
@@ -94,9 +106,12 @@ describe('=== Test1==', () => {
     describe('HTTP DELETE /client', () => {
         it('deleteOne id=int not exist', (done) => {
 
-            const a=1
+            const a = {
+                id: 17
+            }
             chai.request(app)
-                .delete(`/profil/${a}`)
+                .delete('/profil/')
+                .send(a)
                 .end((err, res) => {
                     should.not.exist(err);
                     res.status.should.eql(404);
@@ -105,9 +120,12 @@ describe('=== Test1==', () => {
         });
         it('deleteOne id=string not exist', (done) => {
 
-            const a="ddd"
+            const a = {
+                id: "bb"
+            }
             chai.request(app)
-                .delete(`/profil/${a}`)
+                .delete('/profil/')
+                .send(a)
                 .end((err, res) => {
                     should.not.exist(err);
                     res.status.should.eql(500);
@@ -119,28 +137,32 @@ describe('=== Test1==', () => {
     describe('HTTP UPDATE /client', () => {
         it('update donner manquant exist', (done) => {
 
-            const a=2
+            const a = {
+                id: 4,
+                nom: 'bruno',
+                prenom: 'simplon'
+
+            }
             chai.request(app)
-                .put(`/profil/${a}`)
-                .send({
-                   "nom" :'bbbbbb',
-                    "prnom":'ccccccc'
-                })
+                .put('/profil/')
+                .send(a)
                 .end((err, res) => {
                     should.not.exist(err);
-                    res.status.should.eql(400);
+                    res.status.should.eql(200);
                     done();
                 });
         });
         it('update donner compler et id exist', (done) => {
 
-            const a=2
+            const a = {
+                id: 3,
+                nom: 'coach',
+                prenom: 'simplon'
+
+            }
             chai.request(app)
-                .put(`/profil/${a}`)
-                .send({
-                   "nom" :'bbbbbb',
-                    "prenom":'ccccccc'
-                })
+                .put('/profil/')
+                .send(a)
                 .end((err, res) => {
                     should.not.exist(err);
                     res.status.should.eql(200);
@@ -149,28 +171,32 @@ describe('=== Test1==', () => {
         });
         it('update id=string not exist', (done) => {
 
-            const a="ddd"
+            const a = {
+                id: 1000,
+                nom: 'bbbbbb',
+                prenom: 'ccccccc'
+
+            }
             chai.request(app)
-                .put(`/profil/${a}`)
-                .send({
-                    "nom" :'bbbbbb',
-                    "prenom":'ccccccc'
-                })
+                .put('/profil/')
+                .send(a)
                 .end((err, res) => {
                     should.not.exist(err);
-                    res.status.should.eql(500);
+                    res.status.should.eql(404);
                     done();
                 });
         });
         it('update id not exist', (done) => {
 
-            const a=1000
+            const a = {
+                id: 1000,
+                nom: 'bbbbbb',
+                prenom: 'ccccccc'
+
+            }
             chai.request(app)
-                .put(`/profil/${a}`)
-                .send({
-                    "nom" :'bbbbbb',
-                    "prenom":'ccccccc'
-                })
+                .put('/profil/')
+                .send(a)
                 .end((err, res) => {
                     should.not.exist(err);
                     res.status.should.eql(404);

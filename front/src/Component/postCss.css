@@ -1,0 +1,21 @@
+input[type="file"] {
+    display: none;
+} 
+#upl{
+    padding: 10px;
+    background: rgb(88, 85, 85); 
+    display: table;
+    color: #fff;
+    width: 100px;
+    height: 30px;
+    border-radius: 2px;
+    text-align: center;
+    margin-left: 130px;
+    margin-top: 10px;
+    padding-top: 5px!important;
+    line-height: 30px;
+}
+img{
+    widows: 200px;
+    height: 100px;
+}

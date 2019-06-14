@@ -51,14 +51,14 @@ exports.findAll = (req, res) => {
         });
     });
 };
-// Find a single profil with a profilId
+// Find a single profil with a id
 exports.findOne = (req, res) => {
-    Profile.findById(req.params.profilId)
+    Profile.findById(req.body.id)
     .then(profilchoix => {
         //console.log(unprofil) 
         if(!profilchoix) {
             return res.status(404).send({
-                message: "profil not found with id" + req.params.profilId
+                message: "profil not found with id" + req.body.id
             });            
         }
         else{  
@@ -69,32 +69,32 @@ exports.findOne = (req, res) => {
     }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
-                message: "profil not found with id " + req.params.profilId
+                message: "profil not found with id " + req.body.id
             });                
         }
         return res.status(500).send({
-            message: "Something wrong retrieving profil with id " + req.params.profilId
+            message: "Something wrong retrieving profil with id " + req.body.id
         });
     });
 };
 
 exports.delete = (req, res) => {
-    Profile.findByIdAndRemove(req.params.profilId)
+    Profile.findByIdAndRemove(req.body.id)
         .then(user => {
             if(!user) {
                 return res.status(404).send({
-                    message: "eleve not found with id " + req.params.profilId
+                    message: "eleve not found with id " + req.body.id
                 });
             }
             res.send({message: "eleve deleted successfully!"});
         }).catch(err => {
             if(err.kind === 'ObjectId' || err.nom === 'NotFound') {
                 return res.status(404).send({
-                    message: "eleve not found with id " + req.params.profilId
+                    message: "eleve not found with id " + req.body.id
                 });                
             }
             return res.status(500).send({
-                message: "Could not delete eleve with id " + req.params.profilId
+                message: "Could not delete eleve with id " + req.body.id
             });
         });
     };
@@ -108,7 +108,7 @@ exports.update = (req, res) => {
     }
 
     // Find and update eleve with the request body
-    Profile.findByIdAndUpdate(req.params.profilId, {
+    Profile.findByIdAndUpdate(req.body.id, {
         
         nom: req.body.nom || "No eleve title", 
         prenom: req.body.prenom,
@@ -117,18 +117,18 @@ exports.update = (req, res) => {
     .then(user => {
         if(!user) {
             return res.status(404).send({
-                message: "eleve not found with id " + req.params.profilId
+                message: "eleve not found with id " + req.body.id
             });
         }
         res.send(user);
     }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
-                message: "eleve not found with id " + req.params.profilId
+                message: "eleve not found with id " + req.body.id
             });                
         }
         return res.status(500).send({
-            message: "Something wrong updating note with id " + req.params.profilId
+            message: "Something wrong updating note with id " + req.body.id
         });
     });
 };
